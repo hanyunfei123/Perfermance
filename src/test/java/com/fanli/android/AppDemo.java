@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,7 @@ public class AppDemo {
 
     private static AndroidDriver<AndroidElement> driver;
     private TouchAction androidDriver;
+    GetDeviceInfo getDeviceInfo = new GetDeviceInfo();
 
     @BeforeSuite
     public void setUp() throws Exception {
@@ -35,10 +37,10 @@ public class AppDemo {
         //  capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
         capabilities.setCapability("device", "Android");
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("deviceName", "a2aa8146");
+        capabilities.setCapability("deviceName", getDeviceInfo.getDeviceName());
 
         //设置安卓系统版本
-        capabilities.setCapability("platformVersion", "4.4.4");
+        capabilities.setCapability("platformVersion", getDeviceInfo.getOsVersion());
         //设置apk路径
         //capabilities.setCapability("app", app.getAbsolutePath());
         //输入中文
@@ -56,10 +58,10 @@ public class AppDemo {
 
     @Test
     //case1：首页进入超级返
-    public void moreTest() throws InterruptedException {
+    public void moreTest() throws InterruptedException,IOException {
 
         System.out.println(driver.getPageSource());
-
+        GetCpu.main(null);
         try{
             if (driver.findElementById( "com.fanli.android.apps:id/splash_img").isDisplayed()){
                 driver.findElementByName("跳过").click();
@@ -76,7 +78,7 @@ public class AppDemo {
         }
         System.out.println("超级返测试通过");
     }
-
+/*
     //进入九块九
     @Test
     public void moreTest1() throws Exception{
@@ -211,7 +213,7 @@ public class AppDemo {
 //        action.tap(540,15).perform();
         }
     }
-
+*/
     private void resetApp() {
     }
 
