@@ -1,29 +1,33 @@
 package com.fanli.android;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class GetMemory {
+public class GetTop {
 
-    public static void main(String []args) throws IOException, InterruptedException {
-        for (int i =0;i<20;i++) {
-            System.out.println(execCommand("com.fanli.android.apps"));
+
+    public static void main(String []args) throws IOException
+    {
+        for(int i = 0;i<2;i++)
+        {
+
+            System.out.println(execCommand());
+
         }
     }
 
-    public static String execCommand(String packageName) throws IOException, InterruptedException {
-
-        String str3=null;
+    public static String execCommand() throws IOException {
+        String str3 = null;
         String command = null;
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
-            System.out.println(1);
-            command = "adb shell dumpsys meminfo com.fanli.android.apps |grep TOTAL";
+            command = "adb shell top -m 8 -n 5 -d 1 -n 1000 | grep com.fanli.android.apps";
         }else if(System.getProperty("os.name").equals("Windows")){
-            command = "adb shell \"dumpsys meminfo com.fanli.android.apps |grep TOTAL\"";
+            command = "adb shell \"top -m 8 -n 5 -d 1 -n 1000 | grep com.fanli.android.apps\" ";
         }
+        System.out.println(command);
         Process proc = runtime.exec(command);
-
         try {
             if (proc.waitFor() != 0) {
                 System.err.println("exit value = " + proc.exitValue());
@@ -34,23 +38,12 @@ public class GetMemory {
             String line = null;
             while ((line = in.readLine()) != null) {
                 stringBuffer.append(line+" ");
-
-
             }
-
             String str1=stringBuffer.toString();
+            System.out.println(1);
             System.out.println(str1);
-
-//            String str2=str1.substring(str1.indexOf("Objects")-60,str1.indexOf("Objects"));
-
-//            str3=str2.substring(0,10)+"k";
-
-
-            //exit
-
-//            Runtime rt = java.lang.Runtime.getRuntime();
-//            String name = "cmd /c md c:\\Users\\ye.liu exit" ;
-//            Process process = rt.exec(name) ;
+//            System.out.println(str1.indexOf("fg"));
+//            str3=str1.substring(str1.indexOf("fg")-23,str1.indexOf("fg"));
 
         } catch (InterruptedException e) {
             System.err.println(e);
@@ -60,7 +53,8 @@ public class GetMemory {
             } catch (Exception e2) {
             }
         }
-        return str3 ;
-    }
 
+        return str3+"%";
+
+    }
 }

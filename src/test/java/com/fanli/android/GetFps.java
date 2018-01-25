@@ -1,9 +1,10 @@
 package com.fanli.android;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class GetMemory {
+public class GetFps {
 
     public static void main(String []args) throws IOException, InterruptedException {
         for (int i =0;i<20;i++) {
@@ -18,9 +19,9 @@ public class GetMemory {
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
             System.out.println(1);
-            command = "adb shell dumpsys meminfo com.fanli.android.apps |grep TOTAL";
+            command = "adb shell dumpsys gfxinfo com.fanli.android.apps reset | grep frames";
         }else if(System.getProperty("os.name").equals("Windows")){
-            command = "adb shell \"dumpsys meminfo com.fanli.android.apps |grep TOTAL\"";
+            command = "adb shell \"dumpsys gfxinfo com.fanli.android.apps reset | grep frames\"";
         }
         Process proc = runtime.exec(command);
 
@@ -62,5 +63,4 @@ public class GetMemory {
         }
         return str3 ;
     }
-
 }
