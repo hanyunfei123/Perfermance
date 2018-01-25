@@ -10,7 +10,7 @@ public class GetFps {
 
     public static void main(String []args) throws IOException, InterruptedException {
         List<Map> maps=new ArrayList<Map>();
-        for(int i=0;i<100;i++){
+        for(int i=0;i<10;i++){
             String fps = execCommand();
             maps.add(handleData(fps));
         }
@@ -26,12 +26,11 @@ public class GetFps {
 
         if (System.getProperty("os.name").equals("Mac OS X")){
             command = "adb shell dumpsys gfxinfo com.fanli.android.apps reset | grep frames";
-        }else if(System.getProperty("os.name").equals("Windows")){
+        }else if(System.getProperty("os.name").indexOf("Windows")!= -1){
             command = "adb shell \"dumpsys gfxinfo com.fanli.android.apps reset | grep frames\"";
         }
 
         Process proc = runtime.exec(command);
-
         try {
             if (proc.waitFor() != 0) {
                 System.err.println("exit value = " + proc.exitValue());

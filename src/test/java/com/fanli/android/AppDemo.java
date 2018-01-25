@@ -60,15 +60,15 @@ public class AppDemo {
     //case1：首页进入超级返
     public void moreTest() throws InterruptedException,IOException {
 
-        System.out.println(driver.getPageSource());
-        GetCpu.main(null);
-        try{
-            if (driver.findElementById( "com.fanli.android.apps:id/splash_img").isDisplayed()){
-                driver.findElementByName("跳过").click();
-            }
-        }catch (Exception e){
-        }
-        Thread.sleep(500);
+//        System.out.println(driver.getPageSource());
+//        GetCpu.main(null);
+//        try{
+//            if (driver.findElementById( "com.fanli.android.apps:id/splash_img").isDisplayed()){
+//                driver.findElementByName("跳过").click();
+//            }
+//        }catch (Exception e){
+//        }
+        Thread.sleep(8000);
         for (int i=0;i<5;i++){
             driver.findElementByAndroidUIAutomator("text(\"超级返\")").click();
             Thread.sleep(200);

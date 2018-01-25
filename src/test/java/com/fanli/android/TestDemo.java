@@ -64,26 +64,27 @@ public class TestDemo {
 
         //初始化
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 //        action.tap(0,0).perform();
-        try{
-            if(driver.findElementById("com.fanli.android.apps:id/close").isDisplayed()){
-                driver.pressKeyCode(AndroidKeyCode.BACK);
-            };
-        }catch(Exception e){
-        }
+//        try{
+//            if(driver.findElementById("com.fanli.android.apps:id/close").isDisplayed()){
+//                driver.pressKeyCode(AndroidKeyCode.BACK);
+//            };
+//        }catch(Exception e){
+//        }
     }
 
     @Test
     public void NineTest() throws Exception {
-        try{
-            if(driver.findElementById("com.fanli.android.apps:id/close").isDisplayed()){
-                driver.pressKeyCode(AndroidKeyCode.BACK);
-            };
-        }catch(Exception e){
-        }
-        for(int i=0;i<100;i++){
-            Thread.sleep(500);
+//        try{
+//            if(driver.findElementById("com.fanli.android.apps:id/close").isDisplayed()){
+//                driver.pressKeyCode(AndroidKeyCode.BACK);
+//            };
+//        }catch(Exception e){
+//        }
+        Thread.sleep(8000);
+        GetFps.main(null);
+        for(int i=0;i<5;i++){
             driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
             Thread.sleep(2000);
             driver.pressKeyCode(AndroidKeyCode.BACK);
