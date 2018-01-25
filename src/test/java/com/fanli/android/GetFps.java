@@ -9,11 +9,13 @@ import org.apache.poi.hssf.usermodel.*;
 public class GetFps {
 
     public static void main(String []args) throws IOException, InterruptedException {
-//        String fps = execCommand();
-//        System.out.println(fps);
-//        System.out.println();
-//        handleData(fps);
-        saveToExcel();
+        List<Map> maps=new ArrayList<Map>();
+        for(int i=0;i<100;i++){
+            String fps = execCommand();
+            maps.add(handleData(fps));
+        }
+
+        writeExcel(maps);
     }
 
     public static String execCommand() throws IOException, InterruptedException {
@@ -55,38 +57,21 @@ public class GetFps {
         return FPS ;
     }
 
-    public static List<Map> handleData(String fps){
-        String str = "Total frames rendered: 20 Janky frames: 10 (333%)";
-        String Total1 = str.substring(str.indexOf("rendered:")+10, str.indexOf("Janky")-1);
-        String Janky1 = str.substring(str.indexOf("Janky frames:")+14, str.indexOf("(")-1);
-        String percent1 = str.substring(str.indexOf("(")+1, str.indexOf(")"));
-        Map map1 = new HashMap();
-        map1.put("Total",Total1);
-        map1.put("Janky", Janky1);
-        map1.put("percent", percent1);
-
+    public static Map handleData(String fps){
         String Total = fps.substring(fps.indexOf("rendered:")+10, fps.indexOf("Janky")-1);
         String Janky = fps.substring(fps.indexOf("Janky frames:")+14, fps.indexOf("(")-1);
         String percent = fps.substring(fps.indexOf("(")+1, fps.indexOf(")"));
 
-        Map map = new HashMap();
-        map.put("Total",Total);
-        map.put("Janky", Janky);
-        map.put("percent", percent);
+        Map fpsMap = new HashMap();
+        fpsMap.put("Total",Total);
+        fpsMap.put("Janky", Janky);
+        fpsMap.put("percent", percent);
 
-        List<Map> maps=new ArrayList<Map>();
-        maps.add(map);
-        maps.add(map1);
-        return maps;
+        return fpsMap;
     }
 
-    public static void saveToExcel() throws IOException, InterruptedException{
-        String fps = execCommand();
-        System.out.println(fps);
-        System.out.println();
-        List<Map> fps1 = handleData(fps);
-        int size = fps1.size();
-        System.out.println(size);
+    public static void writeExcel(List<Map> fpsMaps) throws IOException, InterruptedException{
+        int size = fpsMaps.size();
 
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -96,7 +81,7 @@ public class GetFps {
 
         try {
             HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("Test_Table");
+            HSSFSheet sheet = workbook.createSheet("FPS");
 
             // 行标
             int rowNum;
@@ -113,14 +98,13 @@ public class GetFps {
             }
 
             for (rowNum=0; rowNum<size; rowNum++){
-                System.out.println(fps1.get(rowNum));
                 row = sheet.createRow((short) rowNum+1);
                 cell = row.createCell(0);
-                cell.setCellValue(fps1.get(rowNum).get("Total").toString());
+                cell.setCellValue(fpsMaps.get(rowNum).get("Total").toString());
                 cell = row.createCell(1);
-                cell.setCellValue(fps1.get(rowNum).get("Janky").toString());
+                cell.setCellValue(fpsMaps.get(rowNum).get("Janky").toString());
                 cell = row.createCell(2);
-                cell.setCellValue(fps1.get(rowNum).get("percent").toString());
+                cell.setCellValue(fpsMaps.get(rowNum).get("percent").toString());
 
             }
 

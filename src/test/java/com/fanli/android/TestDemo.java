@@ -82,9 +82,13 @@ public class TestDemo {
             };
         }catch(Exception e){
         }
-        Thread.sleep(500);
-        driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
-        Thread.sleep(1500);
+        for(int i=0;i<100;i++){
+            Thread.sleep(500);
+            driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
+            Thread.sleep(2000);
+            driver.pressKeyCode(AndroidKeyCode.BACK);
+        }
+
 //            //获取首页元素
 //            List<AndroidElement> lis = driver.findElementsById("com.fanli.android.apps:id/ahead_layout");
 //            lis.get(8).click();
