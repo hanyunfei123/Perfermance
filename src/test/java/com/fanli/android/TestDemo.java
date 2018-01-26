@@ -1,36 +1,18 @@
 package com.fanli.android;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
-import org.testng.Reporter;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.testng.internal.thread.ThreadTimeoutException;
-
-import io.appium.java_client.android.AndroidDriver;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import org.junit.*;
-import org.junit.BeforeClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class TestDemo {
 
@@ -90,39 +72,22 @@ public class TestDemo {
             driver.pressKeyCode(AndroidKeyCode.BACK);
         }
 
-//            //获取首页元素
-//            List<AndroidElement> lis = driver.findElementsById("com.fanli.android.apps:id/ahead_layout");
-//            lis.get(8).click();
-//
-//            //Thread.sleep(2000);
-//            //意见反馈
-//            driver.findElementByName("意见反馈").click();
-//            driver.pressKeyCode(AndroidKeyCode.BACK);
-//            //常用问题
-//            driver.findElementByName("常见问题").click();
-//            Thread.sleep(5000);
-//            driver.findElementById("com.fanli.android.apps:id/iv_left").click();
-//            //我的淘宝
-//            driver.findElementByName("我的淘宝").click();
-//            driver.findElementById("com.fanli.android.apps:id/rl_bottom_button").click();
-//            try{
-//                if(driver.findElementByName("登录").isDisplayed()){
-//                    driver.findElementById("com.fanli.android.apps:id/iv_login_delete").click();
-//                    List<AndroidElement> textFieldsList = driver.findElementsByClassName("android.widget.EditText");
-//                    textFieldsList.get(0).sendKeys("hitest");
-//                    textFieldsList.get(1).sendKeys("fanli123");
-//                    driver.findElementById("com.fanli.android.apps:id/btn_login").click();
-//                    Thread.sleep(5000);
-//                };
-//            }catch(Exception e){
-//            }
-//            driver.findElementById("com.fanli.android.apps:id/iv_close");
-//
 //        } catch (InterruptedException e) {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 
+    }
+    public void superTest() throws InterruptedException,IOException {
+        Thread.sleep(8000);
+        for (int i=0;i<5;i++){
+            driver.findElementByAndroidUIAutomator("text(\"超级返\")").click();
+            Thread.sleep(200);
+            //        Assert.assertEquals(text,"限量秒杀");
+            driver.pressKeyCode(AndroidKeyCode.BACK);
+            Thread.sleep(100);
+        }
+        System.out.println("超级返测试通过");
     }
 
     public static void clickByText(String text){
