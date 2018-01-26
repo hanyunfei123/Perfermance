@@ -57,6 +57,11 @@ public class TestDemo {
     }
 
     @Test
+    public void dataMonitor() throws IOException, InterruptedException{
+        GetFps.main(null);
+    }
+
+    @Test
     public void NineTest() throws Exception {
 //        try{
 //            if(driver.findElementById("com.fanli.android.apps:id/close").isDisplayed()){
@@ -65,19 +70,37 @@ public class TestDemo {
 //        }catch(Exception e){
 //        }
         Thread.sleep(8000);
-        GetFps.main(null);
-        for(int i=0;i<5;i++){
+//        for(int i=0;i<5;i++){
             driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
             Thread.sleep(2000);
-            driver.pressKeyCode(AndroidKeyCode.BACK);
-        }
+//            driver.pressKeyCode(AndroidKeyCode.BACK);
 
+//        }
+        int width=driver.manage().window().getSize().width;
+        int height=driver.manage().window().getSize().height;
+        System.out.println(width);
+        System.out.println(height);
+        for(int i=0;i<=5;i++) {
+            Thread.sleep(200);
+            for (int i1 = 0; i1 <= 5; i1++) {
+                TouchAction action = new TouchAction(driver).press(width / 2, height * 5 / 7).waitAction().moveTo(width / 2, height * 2 / 7).release();
+                action.perform();
+            }
+            Thread.sleep(200);
+            for (int i2 = 0; i2 <= 5; i2++) {
+                TouchAction action1 = new TouchAction(driver).press(width / 2, height * 2 / 7).waitAction().moveTo(width / 2, height * 5 / 7).release();
+                action1.perform();
+            }
+        }
+        Test1.key=true;
 //        } catch (InterruptedException e) {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 
     }
+
+
     public void superTest() throws InterruptedException,IOException {
         Thread.sleep(8000);
         for (int i=0;i<5;i++){

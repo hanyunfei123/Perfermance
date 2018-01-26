@@ -1,34 +1,55 @@
 package com.fanli.android;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import org.apache.poi.hssf.usermodel.*;
-
 public class GetFps {
 
     public static void main(String []args) throws IOException, InterruptedException {
-        List<Map> maps=new ArrayList<Map>();
-        for(int i=0;i<10;i++){
-            String fps = execCommand();
-            maps.add(handleData(fps));
-        }
-
-        writeExcel(maps);
-    }
-
-    public static String execCommand() throws IOException, InterruptedException {
-
-        String FPS = null;
         String command = null;
-        Runtime runtime = Runtime.getRuntime();
-
         if (System.getProperty("os.name").equals("Mac OS X")){
             command = "adb shell dumpsys gfxinfo com.fanli.android.apps reset | grep frames";
         }else if(System.getProperty("os.name").indexOf("Windows")!= -1){
             command = "adb shell \"dumpsys gfxinfo com.fanli.android.apps reset | grep frames\"";
         }
+        System.out.println("收集数据开始");
+
+        List<Map> data = new ArrayList<Map>();
+
+        while (!Test1.key){
+            System.out.println("收集数据中...");
+            String fps=execCommand(command);
+            Thread.sleep(4000);
+
+            String Total = fps.substring(fps.indexOf("rendered:")+10, fps.indexOf("Janky")-1);
+            String Janky = fps.substring(fps.indexOf("Janky frames:")+14, fps.indexOf("(")-1);
+            String percent = fps.substring(fps.indexOf("(")+1, fps.indexOf(")"));
+            Map fpsMap = new HashMap();
+            if (!Total.equals("0")){
+                fpsMap.put("Total",Total);
+                fpsMap.put("Janky", Janky);
+                fpsMap.put("percent", percent);
+            }
+//            Map fpsMap = new HashMap();
+//            fpsMap.put("Total",Total);
+//            fpsMap.put("Janky", Janky);
+//            fpsMap.put("percent", percent);
+            data.add(fpsMap);
+        }
+        System.out.println("收集数据结束");
+        writeExcel(data);
+    }
+
+    public static String execCommand(String command) throws IOException, InterruptedException {
+
+        String FPS = null;
+        Runtime runtime = Runtime.getRuntime();
 
         Process proc = runtime.exec(command);
         try {
@@ -43,6 +64,17 @@ public class GetFps {
                 stringBuffer.append(line+" ");
             }
             FPS = stringBuffer.toString();
+            System.out.println(FPS);
+//            String Total = FPS.substring(FPS.indexOf("rendered:")+10, FPS.indexOf("Janky")-1);
+//            String Janky = FPS.substring(FPS.indexOf("Janky frames:")+14, FPS.indexOf("(")-1);
+//            String percent = FPS.substring(FPS.indexOf("(")+1, FPS.indexOf(")"));
+//
+//            Map fpsMap = new HashMap();
+//            fpsMap.put("Total",Total);
+//            fpsMap.put("Janky", Janky);
+//            fpsMap.put("percent", percent);
+//
+//            maps.add(fpsMap);
 
         } catch (InterruptedException e) {
             System.err.println(e);
@@ -53,7 +85,16 @@ public class GetFps {
                 System.err.println(e1);
             }
         }
-        return FPS ;
+//        String path = "/Users/Roger/Desktop/FPSData2.txt";
+//        File file = new File(path);
+//        if(file.exists()){
+//            FileWriter fw = new FileWriter(file,false);
+//            BufferedWriter bw = new BufferedWriter(fw);
+//            bw.write(FPS);
+//            bw.close(); fw.close();
+//            System.out.println("test1 done!");
+//        }
+        return FPS;
     }
 
     public static Map handleData(String fps){
