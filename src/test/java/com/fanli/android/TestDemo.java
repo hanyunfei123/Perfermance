@@ -5,8 +5,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -20,7 +20,7 @@ public class TestDemo {
     GetDeviceInfo getDeviceInfo = new GetDeviceInfo();
     TouchAction action = new TouchAction(driver);
 
-    @BeforeTest
+    @BeforeMethod
     public void setUp() throws Exception {
         //设置apk的路径
         File classpathRoot = new File(System.getProperty("user.dir"));
@@ -104,8 +104,8 @@ public class TestDemo {
 
     }
 
-
-    public void superTest() throws InterruptedException,IOException {
+    @Test
+    public void SuperTest() throws InterruptedException,IOException {
         Thread.sleep(8000);
         for (int i=0;i<5;i++){
             driver.findElementByAndroidUIAutomator("text(\"超级返\")").click();
@@ -126,7 +126,7 @@ public class TestDemo {
         }
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() throws Exception {
         driver.quit();
     }
