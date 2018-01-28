@@ -18,11 +18,10 @@ public class GetFps {
         }else if(System.getProperty("os.name").indexOf("Windows")!= -1){
             command = "adb shell \"dumpsys gfxinfo com.fanli.android.apps reset | grep frames\"";
         }
-        System.out.println("收集数据开始");
-
+        System.out.println("收集数据开始...");
         List<Map> data = new ArrayList<Map>();
 
-        while (!Test1.key){
+        while (!Switch.end){
             System.out.println("收集数据中...");
             String fps=execCommand(command);
             Thread.sleep(4000);
@@ -35,12 +34,8 @@ public class GetFps {
                 fpsMap.put("Total",Total);
                 fpsMap.put("Janky", Janky);
                 fpsMap.put("percent", percent);
+                data.add(fpsMap);
             }
-//            Map fpsMap = new HashMap();
-//            fpsMap.put("Total",Total);
-//            fpsMap.put("Janky", Janky);
-//            fpsMap.put("percent", percent);
-            data.add(fpsMap);
         }
         System.out.println("收集数据结束");
         writeExcel(data);
@@ -65,17 +60,6 @@ public class GetFps {
             }
             FPS = stringBuffer.toString();
             System.out.println(FPS);
-//            String Total = FPS.substring(FPS.indexOf("rendered:")+10, FPS.indexOf("Janky")-1);
-//            String Janky = FPS.substring(FPS.indexOf("Janky frames:")+14, FPS.indexOf("(")-1);
-//            String percent = FPS.substring(FPS.indexOf("(")+1, FPS.indexOf(")"));
-//
-//            Map fpsMap = new HashMap();
-//            fpsMap.put("Total",Total);
-//            fpsMap.put("Janky", Janky);
-//            fpsMap.put("percent", percent);
-//
-//            maps.add(fpsMap);
-
         } catch (InterruptedException e) {
             System.err.println(e);
         }finally{
@@ -85,18 +69,10 @@ public class GetFps {
                 System.err.println(e1);
             }
         }
-//        String path = "/Users/Roger/Desktop/FPSData2.txt";
-//        File file = new File(path);
-//        if(file.exists()){
-//            FileWriter fw = new FileWriter(file,false);
-//            BufferedWriter bw = new BufferedWriter(fw);
-//            bw.write(FPS);
-//            bw.close(); fw.close();
-//            System.out.println("test1 done!");
-//        }
         return FPS;
     }
 
+/*
     public static Map handleData(String fps){
         String Total = fps.substring(fps.indexOf("rendered:")+10, fps.indexOf("Janky")-1);
         String Janky = fps.substring(fps.indexOf("Janky frames:")+14, fps.indexOf("(")-1);
@@ -109,7 +85,7 @@ public class GetFps {
 
         return fpsMap;
     }
-
+*/
     public static void writeExcel(List<Map> fpsMaps) throws IOException, InterruptedException{
         int size = fpsMaps.size();
 
@@ -145,7 +121,6 @@ public class GetFps {
                 cell.setCellValue(fpsMaps.get(rowNum).get("Janky").toString());
                 cell = row.createCell(2);
                 cell.setCellValue(fpsMaps.get(rowNum).get("percent").toString());
-
             }
 
             // 新建一输出文件流

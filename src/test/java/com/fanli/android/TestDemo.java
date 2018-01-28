@@ -5,8 +5,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -20,7 +20,7 @@ public class TestDemo {
     GetDeviceInfo getDeviceInfo = new GetDeviceInfo();
     TouchAction action = new TouchAction(driver);
 
-    @BeforeSuite
+    @BeforeTest
     public void setUp() throws Exception {
         //设置apk的路径
         File classpathRoot = new File(System.getProperty("user.dir"));
@@ -58,6 +58,10 @@ public class TestDemo {
 
     @Test
     public void dataMonitor() throws IOException, InterruptedException{
+        while (!Switch.start){
+            Thread.sleep(3000);
+            System.out.println("waiting");
+        }
         GetFps.main(null);
     }
 
@@ -70,6 +74,7 @@ public class TestDemo {
 //        }catch(Exception e){
 //        }
         Thread.sleep(8000);
+
 //        for(int i=0;i<5;i++){
             driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
             Thread.sleep(2000);
@@ -78,8 +83,7 @@ public class TestDemo {
 //        }
         int width=driver.manage().window().getSize().width;
         int height=driver.manage().window().getSize().height;
-        System.out.println(width);
-        System.out.println(height);
+        Switch.start = true;
         for(int i=0;i<=5;i++) {
             Thread.sleep(200);
             for (int i1 = 0; i1 <= 5; i1++) {
@@ -92,7 +96,7 @@ public class TestDemo {
                 action1.perform();
             }
         }
-        Test1.key=true;
+        Switch.end=true;
 //        } catch (InterruptedException e) {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
@@ -122,7 +126,7 @@ public class TestDemo {
         }
     }
 
-    @AfterSuite
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
