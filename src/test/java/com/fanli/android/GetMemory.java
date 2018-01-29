@@ -17,9 +17,8 @@ public class GetMemory {
         String command = null;
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
-            System.out.println(1);
             command = "adb shell dumpsys meminfo com.fanli.android.apps |grep TOTAL";
-        }else if(System.getProperty("os.name").equals("Windows")){
+        }else if(System.getProperty("os.name").indexOf("Windows")!=-1){
             command = "adb shell \"dumpsys meminfo com.fanli.android.apps |grep TOTAL\"";
         }
         Process proc = runtime.exec(command);
@@ -34,14 +33,12 @@ public class GetMemory {
             String line = null;
             while ((line = in.readLine()) != null) {
                 stringBuffer.append(line+" ");
-
-
             }
 
             String str1=stringBuffer.toString();
             System.out.println(str1);
 
-//            String str2=str1.substring(str1.indexOf("Objects")-60,str1.indexOf("Objects"));
+            String str2=str1.substring(str1.indexOf("TOTAL")-60,str1.indexOf("Objects"));
 
 //            str3=str2.substring(0,10)+"k";
 

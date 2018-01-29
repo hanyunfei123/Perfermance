@@ -12,9 +12,7 @@ public class GetCpu {
     {
         for(int i = 0;i<1000;i++)
         {
-
             System.out.println(execCommand());
-
         }
     }
 
@@ -23,10 +21,13 @@ public class GetCpu {
         String str3=null;
         Runtime runtime = Runtime.getRuntime();
         Process proc = runtime.exec("adb shell dumpsys cpuinfo  $com.fanli.android.apps");
+        System.out.println(1);
         try {
             if (proc.waitFor() != 0) {
                 System.err.println("exit value = " + proc.exitValue());
             }
+            System.out.println(2);
+
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     proc.getInputStream()));
             StringBuffer stringBuffer = new StringBuffer();
@@ -35,7 +36,7 @@ public class GetCpu {
                 stringBuffer.append(line+" ");
             }
             String str1=stringBuffer.toString();
-
+            System.out.println(str1);
             String str2=str1.substring(str1.indexOf("com.fanli.android.apps"),str1.indexOf("com.fanli.android.apps")+28);
             str3=str2.substring(23,27);
 
