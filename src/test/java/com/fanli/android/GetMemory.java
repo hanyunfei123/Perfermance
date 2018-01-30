@@ -2,18 +2,20 @@ package com.fanli.android;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GetMemory {
 
     public static void main(String []args) throws IOException, InterruptedException {
-        for (int i =0;i<20;i++) {
+        for (int i =0;i<2;i++) {
             System.out.println(execCommand("com.fanli.android.apps"));
         }
     }
 
     public static String execCommand(String packageName) throws IOException, InterruptedException {
 
-        String str3=null;
+        String memory=null;
         String command = null;
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
@@ -34,21 +36,14 @@ public class GetMemory {
             while ((line = in.readLine()) != null) {
                 stringBuffer.append(line+" ");
             }
-
-            String str1=stringBuffer.toString();
-            System.out.println(str1);
-
-            String str2=str1.substring(str1.indexOf("TOTAL")-60,str1.indexOf("Objects"));
-
-//            str3=str2.substring(0,10)+"k";
-
-
-            //exit
-
-//            Runtime rt = java.lang.Runtime.getRuntime();
-//            String name = "cmd /c md c:\\Users\\ye.liu exit" ;
-//            Process process = rt.exec(name) ;
-
+            String data=stringBuffer.toString().trim();
+            System.out.println(data);
+            String reg="\\s+[^\\s]+\\s+";
+            Pattern p = Pattern.compile(reg);
+            Matcher m = p.matcher(data);
+            if(m.find()){
+                memory = m.group(0).trim();
+            }
         } catch (InterruptedException e) {
             System.err.println(e);
         }finally{
@@ -57,7 +52,7 @@ public class GetMemory {
             } catch (Exception e2) {
             }
         }
-        return str3 ;
+        return memory ;
     }
 
 }
