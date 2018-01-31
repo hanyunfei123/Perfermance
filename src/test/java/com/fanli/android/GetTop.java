@@ -22,9 +22,9 @@ public class GetTop {
         String command = null;
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
-            command = "adb shell top -m 8 -n 5 -d 1 -n 1000 | grep com.fanli.android.apps";
-        }else if(System.getProperty("os.name").equals("Windows")){
-            command = "adb shell \"top -m 8 -n 5 -d 1 -n 1000 | grep com.fanli.android.apps\" ";
+            command = "adb shell top -m 8 -n 1 -d 1 | grep com.fanli.android.apps";
+        }else if(System.getProperty("os.name").indexOf("Windows")!=-1){
+            command = "adb shell \"top -m 8 -n 1 -d 1 | grep com.fanli.android.apps\" ";
         }
         System.out.println(command);
         Process proc = runtime.exec(command);
@@ -40,7 +40,7 @@ public class GetTop {
                 stringBuffer.append(line+" ");
             }
             String str1=stringBuffer.toString();
-            System.out.println(1);
+            System.out.println(3);
             System.out.println(str1);
 //            System.out.println(str1.indexOf("fg"));
 //            str3=str1.substring(str1.indexOf("fg")-23,str1.indexOf("fg"));
@@ -55,6 +55,5 @@ public class GetTop {
         }
 
         return str3+"%";
-
     }
 }
