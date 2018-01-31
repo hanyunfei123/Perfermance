@@ -9,10 +9,10 @@ public class GetTop {
 
     public static void main(String []args) throws IOException
     {
-        for(int i = 0;i<2;i++)
+        for(int i = 0;i<1;i++)
         {
-
-            System.out.println(execCommand());
+            execCommand();
+//            System.out.println(execCommand());
 
         }
     }
@@ -22,9 +22,10 @@ public class GetTop {
         String command = null;
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
-            command = "adb shell top -m 8 -n 1 -d 1 | grep com.fanli.android.apps";
+//            command = "adb shell top -m 8 -n 1 -d 1 | grep com.fanli.android.apps";
+            command = "adb shell top -m 8 -n 1 -d 1";
         }else if(System.getProperty("os.name").indexOf("Windows")!=-1){
-            command = "adb shell \"top -m 8 -n 1 -d 1 | grep com.fanli.android.apps\" ";
+            command = "adb shell \"top -m 8 -n 1 -d 1\" ";
         }
         System.out.println(command);
         Process proc = runtime.exec(command);
@@ -36,8 +37,10 @@ public class GetTop {
                     proc.getInputStream()));
             StringBuffer stringBuffer = new StringBuffer();
             String line = null;
-            while ((line = in.readLine()) != null) {
-                stringBuffer.append(line+" ");
+            while ((line = in.readLine())!=null) {
+                if(line.indexOf("com.fanli.android.apps")!=-1){
+                    stringBuffer.append(line+" ");
+                }
             }
             String str1=stringBuffer.toString();
             System.out.println(3);
