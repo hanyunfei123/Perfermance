@@ -5,6 +5,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -91,7 +92,9 @@ public class GetFps {
 
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        String path = "/Users/Roger/Desktop/"+"FPS-"+dateFormat.format(now)+".xls";
+        File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        String desktopPath = desktopDir.getAbsolutePath();
+        String path = desktopPath+"\\FPS-"+dateFormat.format(now)+".xls";
         File file = new File(path);
         FileOutputStream fOut = null;
 

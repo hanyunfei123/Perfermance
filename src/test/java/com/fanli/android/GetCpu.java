@@ -25,63 +25,15 @@ public class GetCpu {
         if (System.getProperty("os.name").equals("Mac OS X")){
             command = "adb shell top -m 8 -n 5 -d 1 -n 1000";
         }else if(System.getProperty("os.name").indexOf("Windows")!= -1){
-            command = "adb shell \"top -m 8 -n 5 -d 1 -n 1000 | grep com.fanli.android.apps\"";
+            command = "adb shell \"top -m 8 -n 1 -d 1\"";
         }
         Runtime runtime = Runtime.getRuntime();
-        try{
-            Process proc = runtime.exec(command);
-            final InputStream inputStream = proc.getInputStream();
-            final InputStream errorStream = proc.getErrorStream();
-            new Thread(){
-                public void run(){
-                    try{
-                        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-                        StringBuffer stringBuffer = new StringBuffer();
-                        String line = null;
-                        while ((line = in.readLine()) != null) {
-                            stringBuffer.append(line+" ");
-                        }
-                        String str1=stringBuffer.toString();
-                        System.out.println(str1);
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }finally {
-                        try {
-                            inputStream.close();
-                        }catch (IOException e1){
-                            e1.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
-            new Thread(){
-                public void run(){
-                    try{
-                        BufferedReader in = new BufferedReader(new InputStreamReader(errorStream));
-                        StringBuffer stringBuffer = new StringBuffer();
-                        String line = null;
-                        while ((line = in.readLine()) != null) {
-                            stringBuffer.append(line+" ");
-                        }
-                        String str1=stringBuffer.toString();
-                        System.out.println(str1);
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }finally {
-                        try {
-                            inputStream.close();
-                        }catch (IOException e1){
-                            e1.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
-        }catch ()
+        Process proc = runtime.exec(command);
 
-//        try {
-//            if (proc.waitFor() != 0) {
-//                System.err.println("exit value = " + proc.exitValue());
-//            }
+        try {
+            if (proc.waitFor() != 0) {
+                System.err.println("exit value = " + proc.exitValue());
+            }
 
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     proc.getInputStream()));

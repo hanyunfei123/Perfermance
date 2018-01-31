@@ -5,9 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +18,7 @@ public class TestDemo {
     GetDeviceInfo getDeviceInfo = new GetDeviceInfo();
     TouchAction action = new TouchAction(driver);
 
-    @BeforeMethod
+    @BeforeSuite
     public void setUp() throws Exception {
         //设置apk的路径
         File classpathRoot = new File(System.getProperty("user.dir"));
@@ -126,7 +124,7 @@ public class TestDemo {
         }
     }
 
-    @AfterMethod
+    @AfterSuite
     public void tearDown() throws Exception {
         driver.quit();
     }

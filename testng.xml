@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" parallel="methods" thread-count="1" name="Perfermance">
+    <test verbose="2" preserve-order="true" parallel="methods" thread-count="2" name="Perfermance">
         <classes>
             <!--<class name="com.fanli.android.AppDemo">-->
                 <!--<methods>-->
@@ -16,7 +16,7 @@
                 <methods>
                     <!--<include name="dataMonitor"/>-->
                     <include name="NineTest"/>
-                    <include name="SuperTest"/>
+                    <include name="dataMonitor"/>
                 </methods>
             </class>
         </classes>
