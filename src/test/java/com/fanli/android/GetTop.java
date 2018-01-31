@@ -3,6 +3,8 @@ package com.fanli.android;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GetTop {
 
@@ -11,14 +13,13 @@ public class GetTop {
     {
         for(int i = 0;i<1;i++)
         {
-            execCommand();
-//            System.out.println(execCommand());
+            System.out.println(execCommand());
 
         }
     }
 
     public static String execCommand() throws IOException {
-        String str3 = null;
+        String top = null;
         String command = null;
         Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
@@ -42,11 +43,15 @@ public class GetTop {
                     stringBuffer.append(line+" ");
                 }
             }
-            String str1=stringBuffer.toString();
-            System.out.println(3);
-            System.out.println(str1);
-//            System.out.println(str1.indexOf("fg"));
-//            str3=str1.substring(str1.indexOf("fg")-23,str1.indexOf("fg"));
+            String data=stringBuffer.toString();
+            System.out.println(data);
+
+            String reg="\\s+[0-9]+%\\s+";
+            Pattern p = Pattern.compile(reg);
+            Matcher m = p.matcher(data);
+            if(m.find()){
+                top = m.group().trim();
+            }
 
         } catch (InterruptedException e) {
             System.err.println(e);
@@ -56,7 +61,6 @@ public class GetTop {
             } catch (Exception e2) {
             }
         }
-
-        return str3+"%";
+        return top;
     }
 }
