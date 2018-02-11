@@ -1,7 +1,7 @@
 package com.fanli.android.handleData;
 
-import java.util.List;
+import java.io.IOException;
 
 public interface WriteExcel {
-    void writeExcel(List<String> maps, String name);
+    void writeExcel() throws IOException, InterruptedException;
 }

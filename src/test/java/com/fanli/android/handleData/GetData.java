@@ -21,9 +21,7 @@ public abstract class GetData implements WriteExcel{
 
     public abstract String parseInfo(String data);
 
-
-
-    public List<String> handleData(String dataName) throws IOException, InterruptedException {
+    public List<String> handleData() throws IOException, InterruptedException {
         System.out.println("收集数据开始...");
         List<String> data = new ArrayList<String>();
         while (!Switch.memoryEnd){
@@ -68,8 +66,7 @@ public abstract class GetData implements WriteExcel{
         return data;
     }
 
-    @Override
-    public void writeExcel(List<String> dataMaps, String name) {
+    public void toExcel(List<String> dataMaps, String name) {
         int size = dataMaps.size();
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -117,7 +114,10 @@ public abstract class GetData implements WriteExcel{
                 }
             }
         }
-
     }
 
+    @Override
+    public void writeExcel() throws IOException, InterruptedException {
+        toExcel(handleData(),"1");
+    }
 }

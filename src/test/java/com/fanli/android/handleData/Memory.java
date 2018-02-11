@@ -69,4 +69,9 @@ public class Memory extends GetData{
             }
         return str;
     }
+
+    @Override
+    public void writeExcel() {
+
+    }
 }
