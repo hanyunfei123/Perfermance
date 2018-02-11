@@ -8,34 +8,40 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GetTop {
 
 
-    public static void main(String []args) throws IOException {
-        for(int i = 0;i<1;i++)
-        {
-            System.out.println(execCommand());
-
-        }
-    }
-
-    public static String execCommand() throws IOException {
-        String top = null;
+    public static void main(String []args) throws IOException, InterruptedException {
         String command = null;
-        Runtime runtime = Runtime.getRuntime();
         if (System.getProperty("os.name").equals("Mac OS X")){
-//            command = "adb shell top -m 8 -n 1 -d 1 | grep com.fanli.android.apps";
             command = "adb shell top -m 8 -n 1 -d 1";
         }else if(System.getProperty("os.name").indexOf("Windows")!=-1){
             command = "adb shell \"top -m 8 -n 1 -d 1\" ";
         }
-        System.out.println(command);
+        System.out.println("收集数据开始...");
+        List<String> data = new ArrayList<String>();
+
+        while (!Switch.cpuEnd){
+            System.out.println("收集数据中...");
+            String cpu=execCommand(command);
+            Thread.sleep(4000);
+
+            if(cpu!=null){
+                data.add(cpu);
+            }
+        }
+
+        System.out.println("收集数据结束");
+        writeExcel(data);
+    }
+
+    public static String execCommand(String command) throws IOException {
+        String top = null;
+        Runtime runtime = Runtime.getRuntime();
         Process proc = runtime.exec(command);
         try {
             if (proc.waitFor() != 0) {
@@ -71,19 +77,19 @@ public class GetTop {
         return top;
     }
 
-    public static void writeExcel(List<Map> fpsMaps) throws IOException, InterruptedException{
-        int size = fpsMaps.size();
+    public static void writeExcel(List<String> cpuMaps) throws IOException, InterruptedException{
+        int size = cpuMaps.size();
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
         String desktopPath = desktopDir.getAbsolutePath();
-        String path = desktopPath+"\\FPS-"+dateFormat.format(now)+".xls";
+        String path = "/Users/Roger/Desktop/CPU-"+dateFormat.format(now)+".xls";
         File file = new File(path);
         FileOutputStream fOut = null;
 
         try {
             HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("CPU");
+            HSSFSheet sheet = workbook.createSheet("CPU ");
 
             // 行标
             int rowNum;
@@ -93,20 +99,11 @@ public class GetTop {
             HSSFRow row = sheet.createRow(0);
             // 单元格
             HSSFCell cell = null;
-            String[] title = {"cpu"};
-            for(int i=0;i<title.length;i++){
-                cell = row.createCell(i);
-                cell.setCellValue(title[i]);
-            }
+            row.createCell(0).setCellValue("CPU");
 
             for (rowNum=0; rowNum<size; rowNum++){
                 row = sheet.createRow((short) rowNum+1);
-                cell = row.createCell(0);
-                cell.setCellValue(fpsMaps.get(rowNum).get("Total").toString());
-                cell = row.createCell(1);
-                cell.setCellValue(fpsMaps.get(rowNum).get("Janky").toString());
-                cell = row.createCell(2);
-                cell.setCellValue(fpsMaps.get(rowNum).get("percent").toString());
+                row.createCell(0).setCellValue(cpuMaps.get(rowNum));
             }
 
             // 新建一输出文件流

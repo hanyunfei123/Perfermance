@@ -10,8 +10,15 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class GetFps {
-
+public abstract class GetFps extends GetData{
+//        String command = null;
+//        if (.equals("Mac OS X")){
+//            command = "adb shell dumpsys gfxinfo com.fanli.android.apps reset | grep frames";
+//        }else if(System.getProperty("os.name").indexOf("Windows")!= -1){
+//            command = "adb shell \"dumpsys gfxinfo com.fanli.android.apps reset | grep frames\"";
+//        }
+//}
+//
     public static void main(String []args) throws IOException, InterruptedException {
         String command = null;
         if (System.getProperty("os.name").equals("Mac OS X")){
@@ -22,7 +29,7 @@ public class GetFps {
         System.out.println("收集数据开始...");
         List<Map> data = new ArrayList<Map>();
 
-        while (!Switch.end){
+        while (!Switch.fpsEnd){
             System.out.println("收集数据中...");
             String fps=execCommand(command);
             Thread.sleep(4000);
@@ -94,7 +101,7 @@ public class GetFps {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
         String desktopPath = desktopDir.getAbsolutePath();
-        String path = desktopPath+"\\FPS-"+dateFormat.format(now)+".xls";
+        String path = "/Users/Roger/Desktop/FPS-"+dateFormat.format(now)+".xls";
         File file = new File(path);
         FileOutputStream fOut = null;
 

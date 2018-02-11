@@ -56,7 +56,7 @@ public class TestDemo {
 
     @Test
     public void dataMonitor() throws IOException, InterruptedException{
-        while (!Switch.start){
+        while (!Switch.fpsStart){
             Thread.sleep(3000);
             System.out.println("waiting");
         }
@@ -65,23 +65,16 @@ public class TestDemo {
 
     @Test
     public void NineTest() throws Exception {
-//        try{
-//            if(driver.findElementById("com.fanli.android.apps:id/close").isDisplayed()){
-//                driver.pressKeyCode(AndroidKeyCode.BACK);
-//            };
-//        }catch(Exception e){
-//        }
+
         Thread.sleep(8000);
 
-//        for(int i=0;i<5;i++){
-            driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
-            Thread.sleep(2000);
-//            driver.pressKeyCode(AndroidKeyCode.BACK);
 
-//        }
+        driver.findElementByAndroidUIAutomator("text(\"9块9\")").click();
+        Thread.sleep(2000);
+
         int width=driver.manage().window().getSize().width;
         int height=driver.manage().window().getSize().height;
-        Switch.start = true;
+        Switch.fpsStart = true;
         for(int i=0;i<=5;i++) {
             Thread.sleep(200);
             for (int i1 = 0; i1 <= 5; i1++) {
@@ -94,11 +87,7 @@ public class TestDemo {
                 action1.perform();
             }
         }
-        Switch.end=true;
-//        } catch (InterruptedException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        Switch.fpsEnd=true;
 
     }
 
