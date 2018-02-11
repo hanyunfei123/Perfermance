@@ -1,4 +1,4 @@
-package com.fanli.android;
+package com.fanli.android.handleData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Cpu extends GetData {
+public class Cpu extends GetData {
 
     @Override
     public String execCommand() throws IOException{

@@ -1,4 +1,6 @@
-package com.fanli.android;
+package com.fanli.android.handleData;
+
+import com.fanli.android.Switch;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -7,53 +9,41 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GetMemory {
+public class GetTop {
+
 
     public static void main(String []args) throws IOException, InterruptedException {
         String command = null;
         if (System.getProperty("os.name").equals("Mac OS X")){
-            command = "adb shell dumpsys meminfo com.fanli.android.apps |grep TOTAL";
+            command = "adb shell top -m 8 -n 1 -d 1";
         }else if(System.getProperty("os.name").indexOf("Windows")!=-1){
-            command = "adb shell \"dumpsys meminfo com.fanli.android.apps |grep TOTAL\"";
+            command = "adb shell \"top -m 8 -n 1 -d 1\" ";
         }
-        System.out.println(command);
         System.out.println("收集数据开始...");
         List<String> data = new ArrayList<String>();
 
-        for (int i =0;i<2;i++) {
-            String memory=execCommand(command);
+        while (!Switch.cpuEnd){
+            System.out.println("收集数据中...");
+            String cpu=execCommand(command);
             Thread.sleep(4000);
-            if(memory!=null){
-                data.add(memory);
+
+            if(cpu!=null){
+                data.add(cpu);
             }
         }
-
-
-//        while (!Switch.end){
-//            System.out.println("收集数据中...");
-//            String memory=execCommand(command);
-//            Thread.sleep(4000);
-//            if(memory!=null){
-//                data.add(memory);
-//            }
-//        }
 
         System.out.println("收集数据结束");
         writeExcel(data);
     }
 
-    public static String execCommand(String command) throws IOException, InterruptedException {
-
-        String memory=null;
+    public static String execCommand(String command) throws IOException {
+        String top = null;
         Runtime runtime = Runtime.getRuntime();
         Process proc = runtime.exec(command);
-
         try {
             if (proc.waitFor() != 0) {
                 System.err.println("exit value = " + proc.exitValue());
@@ -62,17 +52,21 @@ public class GetMemory {
                     proc.getInputStream()));
             StringBuffer stringBuffer = new StringBuffer();
             String line = null;
-            while ((line = in.readLine()) != null) {
-                stringBuffer.append(line+" ");
+            while ((line = in.readLine())!=null) {
+                if((line.indexOf("com.fanli.android.apps")!=-1)&&(line.indexOf("com.fanli.android.apps:push")==-1)){
+                    stringBuffer.append(line+" ");
+                }
             }
-            String data=stringBuffer.toString().trim();
+            String data=stringBuffer.toString();
             System.out.println(data);
-            String reg="\\s+[^\\s]+\\s+";
+
+            String reg="\\s+[0-9]+%\\s+";
             Pattern p = Pattern.compile(reg);
             Matcher m = p.matcher(data);
             if(m.find()){
-                memory = m.group(0).trim();
+                top = m.group().trim();
             }
+
         } catch (InterruptedException e) {
             System.err.println(e);
         }finally{
@@ -81,22 +75,22 @@ public class GetMemory {
             } catch (Exception e2) {
             }
         }
-        return memory ;
+        return top;
     }
 
-    public static void writeExcel(List<String> memoryMaps) throws IOException, InterruptedException{
-        int size = memoryMaps.size();
+    public static void writeExcel(List<String> cpuMaps) throws IOException, InterruptedException{
+        int size = cpuMaps.size();
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
         String desktopPath = desktopDir.getAbsolutePath();
-        String path = "/Users/Roger/Desktop/Memeory-"+dateFormat.format(now)+".xls";
+        String path = "/Users/Roger/Desktop/CPU-"+dateFormat.format(now)+".xls";
         File file = new File(path);
         FileOutputStream fOut = null;
 
         try {
             HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("Memeory ");
+            HSSFSheet sheet = workbook.createSheet("CPU ");
 
             // 行标
             int rowNum;
@@ -106,11 +100,11 @@ public class GetMemory {
             HSSFRow row = sheet.createRow(0);
             // 单元格
             HSSFCell cell = null;
-            row.createCell(0).setCellValue("Memeory");
+            row.createCell(0).setCellValue("CPU");
 
             for (rowNum=0; rowNum<size; rowNum++){
                 row = sheet.createRow((short) rowNum+1);
-                row.createCell(0).setCellValue(memoryMaps.get(rowNum));
+                row.createCell(0).setCellValue(cpuMaps.get(rowNum));
             }
 
             // 新建一输出文件流
