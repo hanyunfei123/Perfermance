@@ -19,23 +19,21 @@ public abstract class GetData implements WriteExcel{
 
     public abstract String command();
 
-    String dataType;
+    //处理cmd命令行获取的数据
+    public abstract String handleCmd(String data);
 
-    public abstract String parseInfo(String data);
-
-    public List<String> handleData() throws IOException, InterruptedException {
-        System.out.println("收集数据开始...");
-        List<String> data = new ArrayList<String>();
-        while (!Switch.memoryEnd){
-            System.out.println("收集数据中...");
-            String memory=execCommand(command());
-            Thread.sleep(4000);
-            if(memory!=null){
-                data.add(memory);
-            }
-        }
-        return data;
-    };
+    public abstract List<String> handleData();
+//            System.out.println("收集数据开始...");
+//            List<String> data = new ArrayList<String>();
+//            while (!Switch.memoryEnd){
+//                System.out.println("收集数据中...");
+//                String memory=execCommand(command());
+//                Thread.sleep(4000);
+//                if(memory!=null){
+//                    data.add(memory);
+//                }
+//            }
+//            return data;
 
     public String execCommand(String command) throws IOException{
         String data = null;
@@ -54,7 +52,7 @@ public abstract class GetData implements WriteExcel{
             }
             String str=stringBuffer.toString();
             System.out.println(str);
-            data = parseInfo(str);
+            data = handleCmd(str);
 
         } catch (InterruptedException e) {
             System.err.println(e);
@@ -120,6 +118,6 @@ public abstract class GetData implements WriteExcel{
 
     @Override
     public void writeExcel() throws IOException, InterruptedException {
-        toExcel(handleData(),dataType);
+        toExcel(handleData(),"app");
     }
 }

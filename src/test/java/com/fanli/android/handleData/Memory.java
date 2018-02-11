@@ -1,8 +1,12 @@
 package com.fanli.android.handleData;
 
+import com.fanli.android.Switch;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,46 +24,7 @@ public class Memory extends GetData{
     }
 
     @Override
-    public String execCommand(String command) throws IOException {
-        String memory = null;
-        Runtime runtime = Runtime.getRuntime();
-        Process proc = runtime.exec(command);
-        try {
-            if (proc.waitFor() != 0) {
-                System.err.println("exit value = " + proc.exitValue());
-            }
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    proc.getInputStream()));
-            StringBuffer stringBuffer = new StringBuffer();
-            String line = null;
-            while ((line = in.readLine())!=null) {
-                if((line.indexOf("com.fanli.android.apps")!=-1)&&(line.indexOf("com.fanli.android.apps:push")==-1)){
-                    stringBuffer.append(line+" ");
-                }
-            }
-            String str=stringBuffer.toString();
-            System.out.println(str);
-
-            String reg="\\s+[0-9]+%\\s+";
-            Pattern p = Pattern.compile(reg);
-            Matcher m = p.matcher(str);
-            if(m.find()){
-                memory = m.group().trim();
-            }
-
-        } catch (InterruptedException e) {
-            System.err.println(e);
-        }finally{
-            try {
-                proc.destroy();
-            } catch (Exception e2) {
-            }
-        }
-        return memory;
-    }
-
-    @Override
-    public String parseInfo(String data) {
+    public String handleCmd(String data) {
             String str = null;
             String reg="\\s+[0-9]+%\\s+";
             Pattern p = Pattern.compile(reg);
@@ -71,7 +36,21 @@ public class Memory extends GetData{
     }
 
     @Override
-    public void writeExcel() throws IOException, InterruptedException {
-        toExcel(new Memory().handleData(), "Memory");
+    public List<String> handleData() {
+        System.out.println("收集数据开始...");
+        List<String> data = new ArrayList<String>();
+        while (!Switch.memoryEnd){
+            System.out.println("收集数据中...");
+            String memory=execCommand(command());
+            if(memory!=null){
+                data.add(memory);
+            }
+        }
+            return data;
     }
+
+//    @Override
+//    public void writeExcel() throws IOException, InterruptedException {
+//        toExcel(new Memory().handleData(), "Memory");
+//    }
 }

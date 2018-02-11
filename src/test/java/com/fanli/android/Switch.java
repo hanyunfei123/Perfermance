@@ -2,6 +2,7 @@ package com.fanli.android;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.lang.reflect.Field;
 
 public class Switch {
     volatile public static boolean fpsStart = false;
@@ -13,9 +14,4 @@ public class Switch {
     volatile public static boolean memoryStart = false;
     volatile public static boolean memoryEnd = false;
 
-    public static void main(String[] args) {
-        File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
-        String desktopPath = desktopDir.getAbsolutePath();
-        System.out.println(desktopPath);
-    }
 }

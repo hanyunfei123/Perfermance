@@ -7,7 +7,12 @@ public class Fps extends GetData {
     }
 
     @Override
-    public String parseInfo(String data) {
+    public String dataType() {
+        return null;
+    }
+
+    @Override
+    public String handleCmd(String data) {
         return null;
     }
 //    @Override
