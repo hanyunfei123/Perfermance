@@ -1,13 +1,14 @@
 package com.fanli.android;
 
 import com.fanli.android.handleData.GetDeviceInfo;
-import com.fanli.android.handleData.GetFps;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,14 +57,14 @@ public class TestDemo {
 //        }
     }
 
-    @Test
-    public void dataMonitor() throws IOException, InterruptedException{
-        while (!Switch.fpsStart){
-            Thread.sleep(3000);
-            System.out.println("waiting");
-        }
-        GetFps.main(null);
-    }
+//    @Test
+//    public void dataMonitor() throws IOException, InterruptedException{
+//        while (!Switch.fpsStart){
+//            Thread.sleep(3000);
+//            System.out.println("waiting");
+//        }
+//        GetFps.main(null);
+//    }
 
     @Test
     public void NineTest() throws Exception {

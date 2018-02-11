@@ -1,12 +1,13 @@
 package com.fanli.android.handleData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Data{
-    public List<GetData> fpsMaps(){
-        List<GetData> infos = new ArrayList<GetData>();
-        infos.add(new Cpu());
+    public static List<String> getData() throws IndexOutOfBoundsException, IOException {
+        List<String> infos = new ArrayList<String>();
+        infos.add(new Memory().handleData());
         return infos;
     }
 }
