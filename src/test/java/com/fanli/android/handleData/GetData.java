@@ -19,6 +19,8 @@ public abstract class GetData implements WriteExcel{
 
     public abstract String command();
 
+    String dataType;
+
     public abstract String parseInfo(String data);
 
     public List<String> handleData() throws IOException, InterruptedException {
@@ -66,19 +68,19 @@ public abstract class GetData implements WriteExcel{
         return data;
     }
 
-    public void toExcel(List<String> dataMaps, String name) {
+    public void toExcel(List<String> dataMaps, String dataType) {
         int size = dataMaps.size();
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
         String desktopPath = desktopDir.getAbsolutePath();
-        String path = "/Users/Roger/Desktop/"+name+"-"+dateFormat.format(now)+".xls";
+        String path = "/Users/Roger/Desktop/"+dataType+"-"+dateFormat.format(now)+".xls";
         File file = new File(path);
         FileOutputStream fOut = null;
 
         try {
             HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet(name);
+            HSSFSheet sheet = workbook.createSheet(dataType);
 
             // 行标
             int rowNum;
@@ -88,7 +90,7 @@ public abstract class GetData implements WriteExcel{
             HSSFRow row = sheet.createRow(0);
             // 单元格
             HSSFCell cell = null;
-            row.createCell(0).setCellValue(name);
+            row.createCell(0).setCellValue(dataType);
 
             for (rowNum=0; rowNum<size; rowNum++){
                 row = sheet.createRow((short) rowNum+1);
@@ -118,6 +120,6 @@ public abstract class GetData implements WriteExcel{
 
     @Override
     public void writeExcel() throws IOException, InterruptedException {
-        toExcel(handleData(),"1");
+        toExcel(handleData(),dataType);
     }
 }

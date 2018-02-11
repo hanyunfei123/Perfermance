@@ -71,7 +71,7 @@ public class Memory extends GetData{
     }
 
     @Override
-    public void writeExcel() {
-
+    public void writeExcel() throws IOException, InterruptedException {
+        toExcel(new Memory().handleData(), "Memory");
     }
 }
