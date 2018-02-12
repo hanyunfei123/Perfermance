@@ -1,9 +1,5 @@
 package com.fanli.android.handleData;
 
-import com.fanli.android.Switch;
-
-import javax.swing.filechooser.FileSystemView;
-import java.io.File;
 import java.io.IOException;
 
 public class testdemo {
@@ -16,11 +12,9 @@ public class testdemo {
 //                Switch.memoryEnd = true;
 //            }
 //        }
-        boolean memoryEnd = true;
-        System.out.println();
-//        String  switchName = "Switch.memoryEnd";
-//        System.out.println(switchName);
-//        System.out.println(Boolean.parseBoolean(switchName));
+//        new Memory().writeExcel();
+//        new Cpu().writeExcel();
+        new Fps().writeExcel();
     }
 
 //    public static void main(String[] args) {

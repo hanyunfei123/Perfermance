@@ -1,6 +1,5 @@
 package com.fanli.android.handleData;
 
-import com.fanli.android.Switch;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -9,34 +8,31 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public abstract class GetData implements WriteExcel{
 
+    @Override
+    public void writeExcel(){
+        try {
+            toExcel(handleData(),"app");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String osName = System.getProperty("os.name");
 
-    public abstract String command();
-
     //处理cmd命令行获取的数据
-    public abstract String handleCmd(String data);
+    public abstract String handleCmd(String result);
 
-    public abstract List<String> handleData();
-//            System.out.println("收集数据开始...");
-//            List<String> data = new ArrayList<String>();
-//            while (!Switch.memoryEnd){
-//                System.out.println("收集数据中...");
-//                String memory=execCommand(command());
-//                Thread.sleep(4000);
-//                if(memory!=null){
-//                    data.add(memory);
-//                }
-//            }
-//            return data;
+    public abstract List<String> handleData() throws IOException, InterruptedException;
 
     public String execCommand(String command) throws IOException{
-        String data = null;
+        String result = null;
         Runtime runtime = Runtime.getRuntime();
         Process proc = runtime.exec(command);
         try {
@@ -50,9 +46,8 @@ public abstract class GetData implements WriteExcel{
             while ((line = in.readLine())!=null) {
                 stringBuffer.append(line+" ");
             }
-            String str=stringBuffer.toString();
-            System.out.println(str);
-            data = handleCmd(str);
+            String str=stringBuffer.toString().trim();
+            result = handleCmd(str);
 
         } catch (InterruptedException e) {
             System.err.println(e);
@@ -63,7 +58,7 @@ public abstract class GetData implements WriteExcel{
                 System.err.print(e1);
             }
         }
-        return data;
+        return result;
     }
 
     public void toExcel(List<String> dataMaps, String dataType) {
@@ -114,10 +109,5 @@ public abstract class GetData implements WriteExcel{
                 }
             }
         }
-    }
-
-    @Override
-    public void writeExcel() throws IOException, InterruptedException {
-        toExcel(handleData(),"app");
     }
 }
