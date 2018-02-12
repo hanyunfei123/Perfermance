@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" parallel="methods" thread-count="1" name="Perfermance">
+    <test verbose="2" preserve-order="true" parallel="methods" thread-count="2" name="Perfermance">
         <classes>
-            <!--<class name="com.fanli.android.AppDemo">-->
+            <!--<class name="com.fanli.android.SuperFpsTest">-->
                 <!--<methods>-->
                     <!--<include name="moreTest"/>-->
                     <!--&lt;!&ndash;<include name="moreTest1"/>&ndash;&gt;-->
@@ -12,11 +12,10 @@
                     <!--&lt;!&ndash;<include name="moretest4"/>&ndash;&gt;-->
                 <!--</methods>-->
             <!--</class>-->
-            <class name="com.fanli.android.TestDemo" >
+            <class name="com.fanli.android.NineFpsTest" >
                 <methods>
-                    <!--<include name="dataMonitor"/>-->
                     <include name="NineTest"/>
-                    <include name="dataMonitor"/>
+                    <include name="fpsMonitor"/>
                 </methods>
             </class>
         </classes>

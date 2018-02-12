@@ -18,17 +18,6 @@ import java.util.List;
 public class Fps extends GetData {
 
     @Override
-    public void writeExcel() {
-        try {
-            toExcel(handleData(),"FPS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public String handleCmd(String data) {
         return data;
     }
@@ -45,7 +34,6 @@ public class Fps extends GetData {
         List<String> data = new ArrayList<String>();
 
         while (!Switch.fpsEnd){
-//        for(int i=0;i<20;i++){
             System.out.println("收集数据中...");
             String fps=execCommand(command);
             Thread.sleep(4000);

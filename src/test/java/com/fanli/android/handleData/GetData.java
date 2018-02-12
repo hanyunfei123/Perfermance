@@ -14,9 +14,9 @@ import java.util.List;
 public abstract class GetData implements WriteExcel{
 
     @Override
-    public void writeExcel(){
+    public void writeExcel(String fileName){
         try {
-            toExcel(handleData(),"app");
+            toExcel(handleData(),fileName);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

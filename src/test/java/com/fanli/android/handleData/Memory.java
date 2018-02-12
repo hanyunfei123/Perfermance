@@ -47,13 +47,4 @@ public class Memory extends GetData{
         }
             return data;
     }
-
-    @Override
-    public void writeExcel(){
-        try {
-            toExcel(new Memory().handleData(), "Memory");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

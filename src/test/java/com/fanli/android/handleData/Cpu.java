@@ -1,5 +1,7 @@
 package com.fanli.android.handleData;
 
+import com.fanli.android.Switch;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -68,32 +70,14 @@ public class Cpu extends GetData {
         System.out.println("收集数据开始...");
         List<String> data = new ArrayList<String>();
 
-//        while (!Switch.cpuEnd){
-//            System.out.println("收集数据中...");
-//            String cpu=execCommand(command);
-//            Thread.sleep(4000);
-//
-//            if(cpu!=null){
-//                data.add(cpu);
-//            }
-//        }
-        for(int i=0;i<5;i++){
+        while (!Switch.cpuEnd){
+            System.out.println("收集数据中...");
             String cpu=execCommand(command);
+            Thread.sleep(4000);
             if(cpu!=null){
                 data.add(cpu);
             }
         }
         return data;
-    }
-
-    @Override
-    public void writeExcel(){
-        try {
-            toExcel(handleData(),"Cpu");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
