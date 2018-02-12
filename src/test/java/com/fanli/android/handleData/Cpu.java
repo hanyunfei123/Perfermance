@@ -67,17 +67,17 @@ public class Cpu extends GetData {
         }else if(osName.indexOf("Windows")!=-1){
             command = "adb shell \"top -m 8 -n 1 -d 1\" ";
         }
-        System.out.println("收集数据开始...");
+        System.out.println("Cpu收集数据开始...");
         List<String> data = new ArrayList<String>();
 
         while (!Switch.cpuEnd){
-            System.out.println("收集数据中...");
+            System.out.println("Cpu收集数据中...");
             String cpu=execCommand(command);
-            Thread.sleep(4000);
             if(cpu!=null){
                 data.add(cpu);
             }
         }
+        System.out.println("Cpu收集数据完成...");
         return data;
     }
 }

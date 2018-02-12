@@ -1,5 +1,7 @@
 package com.fanli.android.handleData;
 
+import com.fanli.android.Switch;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +32,16 @@ public class Memory extends GetData{
         }else if(osName.indexOf("Windows")!=-1){
             command = "adb shell \"dumpsys meminfo com.fanli.android.apps |grep TOTAL\"";
         }
-        System.out.println("收集数据开始...");
+        System.out.println("Memory收集数据开始...");
         List<String> data = new ArrayList<String>();
-//        while (!Switch.memoryEnd){
-//            System.out.println("收集数据中...");
-//            String memory=execCommand(command);
-//            if(memory!=null){
-//                data.add(memory);
-//            }
-//        }
-        for(int i=0;i<20;i++){
+        while (!Switch.memoryEnd){
+            System.out.println("Memory收集数据中...");
             String memory=execCommand(command);
             if(memory!=null){
                 data.add(memory);
             }
         }
-            return data;
+        System.out.println("Memory收集数据完成...");
+        return data;
     }
 }

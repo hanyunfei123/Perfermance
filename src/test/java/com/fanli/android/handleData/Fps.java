@@ -30,11 +30,11 @@ public class Fps extends GetData {
         }else if(System.getProperty("os.name").indexOf("Windows")!= -1){
             command = "adb shell \"dumpsys gfxinfo com.fanli.android.apps reset | grep frames\"";
         }
-        System.out.println("收集数据开始...");
+        System.out.println("FPS收集数据开始...");
         List<String> data = new ArrayList<String>();
 
         while (!Switch.fpsEnd){
-            System.out.println("收集数据中...");
+            System.out.println("FPS收集数据中...");
             String fps=execCommand(command);
             Thread.sleep(4000);
 
@@ -46,6 +46,7 @@ public class Fps extends GetData {
 
             data.add(result);
         }
+        System.out.println("FPS收集数据完成...");
         return data;
     }
 

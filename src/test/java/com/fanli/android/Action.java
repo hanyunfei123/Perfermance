@@ -3,18 +3,17 @@ package com.fanli.android;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import java.io.File;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 public  class Action {
 
     public static AndroidDriver<AndroidElement> driver;
 
-    @BeforeSuite
+    @BeforeTest
     public void setUp() throws Exception {
         GetDeviceInfo getDeviceInfo = new GetDeviceInfo();
         //设置apk的路径
@@ -41,10 +40,10 @@ public  class Action {
 
         //初始化
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     }
 
-    @AfterSuite
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
