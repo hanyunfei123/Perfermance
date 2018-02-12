@@ -3,7 +3,7 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" parallel="methods" thread-count="2" name="Perfermance">
         <classes>
-            <!--<class name="com.fanli.android.SuperFpsTest">-->
+            <!--<class name="com.fanli.android.SuperCpuTest">-->
                 <!--<methods>-->
                     <!--<include name="moreTest"/>-->
                     <!--&lt;!&ndash;<include name="moreTest1"/>&ndash;&gt;-->

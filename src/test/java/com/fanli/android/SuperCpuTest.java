@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class SuperFpsTest extends Action{
+public class SuperCpuTest extends Action{
 
     @Test
     public void cpuMonitor() throws IOException, InterruptedException{

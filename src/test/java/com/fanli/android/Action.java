@@ -43,9 +43,7 @@ public  class Action {
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     }
-    public void enterModel(String modelName){
 
-    }
     @AfterSuite
     public void tearDown() throws Exception {
         driver.quit();
